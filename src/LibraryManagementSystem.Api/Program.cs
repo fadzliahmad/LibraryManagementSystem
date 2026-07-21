@@ -62,6 +62,7 @@ builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IMemberService, MemberService>();
 builder.Services.AddScoped<ILoanService, LoanService>();
 builder.Services.AddScoped<IApiKeyService, ApiKeyService>();
+builder.Services.AddScoped<IAppLogService, AppLogService>();
 
 // Authentication
 builder.Services.AddAuthentication(options =>

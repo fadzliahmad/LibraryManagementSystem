@@ -1,5 +1,6 @@
 using System.Net;
 using System.Text.Json;
+using LibraryManagementSystem.Core.Interfaces;
 
 namespace LibraryManagementSystem.Api.Middleware;
 
@@ -14,7 +15,7 @@ public class ExceptionMiddleware
         _logger = logger;
     }
 
-    public async Task InvokeAsync(HttpContext context)
+    public async Task InvokeAsync(HttpContext context, IAppLogService appLogService)
     {
         try
         {
@@ -23,6 +24,15 @@ public class ExceptionMiddleware
         catch (Exception ex)
         {
             _logger.LogError(ex, "Unhandled exception occurred");
+
+            // Log to database
+            appLogService.LogError(
+                message: "Unhandled exception in request pipeline",
+                exception: ex,
+                source: nameof(ExceptionMiddleware),
+                requestPath: context.Request.Path,
+                requestMethod: context.Request.Method
+            );
 
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
