@@ -76,4 +76,10 @@ public class BooksController : ControllerBase
             ? NotFound(new { error })
             : Conflict(new { error });
     }
+
+    [HttpGet("test-error")]
+    public IActionResult TestError()
+    {
+        throw new Exception("This is a test error for logging verification");
+    }
 }
