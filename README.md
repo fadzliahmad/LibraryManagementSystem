@@ -69,8 +69,8 @@ dotnet restore
 dotnet run --project src/LibraryManagementSystem.Api
 ```
 
-The app uses SQLite by default (`library.db`, created automatically on first run) so there's
-no database server setup required. Swagger UI opens at the root URL (e.g.
+This Project Uses SQL SERVER, execute the query to generate sql table schema
+Swagger UI opens at the root URL (e.g.
 `https://localhost:5001/`) with all endpoints documented and testable.
 
 The database is seeded with a few demo books and members on first startup.
