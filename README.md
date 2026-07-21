@@ -69,7 +69,8 @@ dotnet restore
 dotnet run --project src/LibraryManagementSystem.Api
 ```
 
-This Project Uses SQL SERVER, execute the query to generate sql table schema
+This Project Uses SQL SERVER, execute the query to generate sql table schema.
+
 Swagger UI opens at the root URL (e.g.
 `https://localhost:5001/`) with all endpoints documented and testable.
 
