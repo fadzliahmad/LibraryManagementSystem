@@ -34,15 +34,26 @@ public class ExceptionMiddleware
                 requestMethod: context.Request.Method
             );
 
-            context.Response.ContentType = "application/json";
-            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            // Handle specific exceptions gracefully
+            var exceptionResponse = ExceptionHandlerService.HandleException(ex);
 
-            var payload = JsonSerializer.Serialize(new
-            {
-                error = "An unexpected error occurred. Please try again later."
-            });
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = GetStatusCode(exceptionResponse.ErrorCode);
+
+            var payload = JsonSerializer.Serialize(exceptionResponse);
 
             await context.Response.WriteAsync(payload);
         }
+    }
+
+    private static int GetStatusCode(string errorCode)
+    {
+        return errorCode switch
+        {
+            "BOOK_HAS_ACTIVE_LOANS" => (int)HttpStatusCode.BadRequest, // 400
+            "CONSTRAINT_VIOLATION" => (int)HttpStatusCode.BadRequest, // 400
+            "DATABASE_UPDATE_ERROR" => (int)HttpStatusCode.BadRequest, // 400
+            _ => (int)HttpStatusCode.InternalServerError // 500
+        };
     }
 }
